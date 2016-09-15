@@ -2,64 +2,73 @@ import java.io.*;
 import java.util.*;
 
 public class main {
+
+	public static void printErrorMessage(){
+		System.out.println("Вы ввели некорректные данные."); 
+	}
+	
+	public static int enterInt(Scanner sc){
+		int n = 0;
+		try {
+			n = sc.nextInt();
+			if (n < 1) { printErrorMessage(); System.exit(1); }
+			return n;
+		} catch (InputMismatchException IME) {
+			printErrorMessage();
+			System.exit(1);
+		}
+		return n;
+	}
+	
+	public static void enterMatrix(int n, Scanner sc){
+		LinearSystem ls = new LinearSystem(n);
+		System.out.println(n);
+		double w = 0.0;
+		int i = 0;
+		int j = 0;
+		for (int k = 0; k < n * n; k++){
+			if(j == n) { break; }
+			if(i == n) { i = 0; System.out.print("\n"); j++; }
+			
+			try {
+				try { 
+					w = sc.nextDouble();
+				} catch (InputMismatchException e1){
+					printErrorMessage();
+					System.exit(1);
+				} 
+			} catch (NoSuchElementException e) {
+				printErrorMessage();
+				System.exit(1);
+			}
+			System.out.println(i+"-"+j);
+		  	ls.matrix[j][i] = w;
+			System.out.print(w + " ");
+			i++;
+		} 
+	}
+
 	public static void main(String args[]){
 		switch(args.length) {
 			case 0:{
-				System.out.println("Ты не ввел аргумент ебаной командной строки. Неужели блядь это так сложно?"); 
-				System.out.println("Введи stdin для ввода коэффициентов с помощью командной строки."); 
+				System.out.println("Передайте при запуске программы аргумент stdin для ввода коэффициентов с помощью командной строки."); 
 				System.out.println("filename для файлового ввода."); 
-				System.out.println("А еще ты пидор)"); 
 				break;
 			}
 			case 1:{
-				System.out.println("Ты хочешь открыть " + args[0]); 
 				if (args[0].equals("stdin")) {
-					System.out.println("Сейчас будешь вручную вводить блядские коэффициенты, сука");
-					// Ввод коэффициентов
+					System.out.println("Введите n - размер матрицы коэффициентов");
 					Scanner sc = new Scanner(System.in);
-        				try { 
-						int n = sc.nextInt();
-					}
-					catch (Mismath
-					LinearSystem ls = new LinearSystem(n);
-					System.out.println(n);
-					double w;
-					int i = 0;
-					int j = 0;
-					for (int k = 0; k < n * n; k++){
-						if(j == n) { break; }
-						if(i == n) { i = 0; System.out.print("\n"); j++; }
-						w = sc.nextDouble();
-						LinearSystem.matrix[i][j] = w;
-						System.out.print(w + " ");
-						i++;
-					} 
-				
+					int n = enterInt(sc);
+					enterMatrix(n, sc);
 				} else {
 					try {
 						Scanner sc = new Scanner(new File(args[0]));
-        					int n = sc.nextInt();
-						LinearSystem ls = new LinearSystem(n);
-						System.out.println(n);
-						double w;
-						int i = 0;
-						int j = 0;
-						try {
-							for (int k = 0; k < n * n; k++){
-								if(j == n) { break; }
-								if(i == n) { i = 0; System.out.print("\n"); j++; }
-								w = sc.nextDouble();
-								LinearSystem.matrix[i][j] = w;
-								System.out.print(w + " ");
-								i++;
-							}
-						}
-						catch (NoSuchElementException q)  {
-							System.out.println("\nМаловато аргументов, дружок\nПопробуй заново)"); 
-						}		
+        					int n = enterInt(sc);
+						enterMatrix(n, sc);
 					} 
 					catch (FileNotFoundException e1) {
-						System.out.println("Ахуел, что ли, сука? Такого файла тут нет."); 
+						System.out.println("Такого файла не существует"); 
 					}
 				}
 				break;
