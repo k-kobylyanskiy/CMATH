@@ -42,15 +42,11 @@ public class LinearSystem {
 		for(int i = strings-1; i >= 0; i--){
 			double s = 0;
 			for(int j = i + 1; j < strings; j++){
-				System.out.println(i+" "+j);
 				s += x[j][0]*matrix[i][j];
 			}
 			x[i][0] = (matrix[i][strings]-s)/matrix[i][i];	
 		}	
 
-		for(int i = 0; i < strings; i++){
-			System.out.print("X"+(i+1)+" = " +  x[i][0] + "\n");
-		}
 	}
 
 }
