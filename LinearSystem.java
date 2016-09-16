@@ -37,6 +37,14 @@ public class LinearSystem {
 			}
 		}
 
+		double det = 1;
+		for(int i = 0; i < strings; i++){
+			det *= matrix[i][i];
+		}
+		if (det == 0){
+			System.out.println("Система уравнений не имеет решений или имеет бесконечное множество решений");
+		} 
+
 		// Обратный ход
 		
 		for(int i = strings-1; i >= 0; i--){
